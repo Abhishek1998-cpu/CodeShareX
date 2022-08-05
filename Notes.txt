@@ -1,0 +1,6 @@
+Track Timing - 23.52, 35
+
+Theme - Red and White
+For Validation - Vuelidate
+For Routing - Vue router
+Styling - Vue Bootstrap
