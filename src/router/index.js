@@ -5,8 +5,13 @@ import EditorComponent from "../components/EditorComponent";
 const router = new Router({
   mode: "history",
   routes: [
-    { name: "Home", path: "/", component: HomeComponent },
-    { name: "Editor", path: "/editor/:roomId", component: EditorComponent },
+    { name: "Home", path: "/", component: HomeComponent, props: true },
+    {
+      name: "Editor",
+      path: "/editor/:roomId",
+      component: EditorComponent,
+      props: true,
+    },
   ],
 });
 

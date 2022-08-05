@@ -26,6 +26,13 @@
 </template>
 
 <script>
+import Vue from "vue";
+import { v4 as uuidv4 } from "uuid";
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
+Vue.use(VueToast);
+
 export default {
   name: "HomeComponent",
   props: {
@@ -39,15 +46,33 @@ export default {
   },
   methods: {
     onSubmit() {
-      const data = {
-        roomId: this.roomId,
-        userName: this.userName,
-      };
-      console.log(data);
-      this.$router.push({ name: "Editor", params: { roomId: "123" } });
+      if (!this.roomId || !this.userName) {
+        Vue.$toast.open({
+          message: "Please fill all the details before submitting",
+          type: "error",
+        });
+      } else {
+        const data = {
+          roomId: this.roomId,
+          userName: this.userName,
+        };
+        console.log(data);
+        this.$router.push({
+          name: "Editor",
+          params: { roomId: this.roomId, userName: this.userName },
+        });
+      }
+    },
+    genNewUuid() {
+      const id = uuidv4();
+      return id;
     },
     createNewRoom() {
       console.log("createNewRoom is called");
+      const id = this.genNewUuid();
+      console.log(id);
+      this.roomId = id;
+      Vue.$toast.open("New room created!");
     },
   },
 };
@@ -63,6 +88,7 @@ export default {
 .inputField {
   padding: 0.2rem;
   margin: 0.2rem;
+  min-width: 25%;
 }
 
 button {
