@@ -7,12 +7,14 @@
         class="inputField"
         v-model="roomId"
         placeholder="Enter Room Id"
+        v-on:keyup.enter="handleEnterPress"
       />
       <input
         type="text"
         class="inputField"
         v-model="userName"
         placeholder="Enter Username"
+        v-on:keyup.enter="handleEnterPress"
       />
       <button v-on:click="onSubmit">Join</button>
     </div>
@@ -73,6 +75,9 @@ export default {
       console.log(id);
       this.roomId = id;
       Vue.$toast.open("New room created!");
+    },
+    handleEnterPress: function () {
+      this.onSubmit();
     },
   },
 };

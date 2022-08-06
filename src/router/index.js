@@ -1,6 +1,6 @@
 import Router from "vue-router";
 import HomeComponent from "../components/HomeComponent";
-import EditorComponent from "../components/EditorComponent";
+import EditorPageComponent from "../components/EditorPageComponent";
 
 const router = new Router({
   mode: "history",
@@ -9,7 +9,7 @@ const router = new Router({
     {
       name: "Editor",
       path: "/editor/:roomId",
-      component: EditorComponent,
+      component: EditorPageComponent,
       props: true,
     },
   ],

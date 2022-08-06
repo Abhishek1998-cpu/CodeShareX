@@ -1,7 +1,12 @@
-Track Timing - 23.52, 35, 45, 51
+Track Timing - 23.52, 35, 45, 51, 1:33, 1:44
 
 Theme - Red and White
 For Validation - Vuelidate
 For Routing - Vue router
 Styling - Vue Bootstrap
 Notification - Vue toast notification - https://www.npmjs.com/package/vue-toast-notification
+Class Names - Hypenated
+Component Names - CamelCase convention
+Props Names - pascelCase convention
+Avatar - Vue Avatar
+Code Compilation library - Code Mirror Open Source editor - https://codemirror.net/
