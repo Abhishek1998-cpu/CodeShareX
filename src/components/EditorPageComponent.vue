@@ -11,7 +11,7 @@
           v-for="client in clients"
           :key="client.socketId"
         >
-          <ClientComponent v-bind:userName="client.userName" />
+          <ClientComponent :userName="client.userName" />
         </div>
       </div>
       <button class="copy-button">Copy Room ID</button>
@@ -24,12 +24,21 @@
 </template>
 
 <script>
+import Vue from "vue";
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
 import ClientComponent from "./ClientComponent";
 import EditorComponent from "./EditorComponent";
+// import { initSocket } from "../socket";
+import io from "socket.io-client";
+import ACTIONS from "../Actions";
+Vue.use(VueToast);
 export default {
   name: "EditorPageComponent",
   props: {
     userName: String,
+    roomId: String,
   },
   components: {
     ClientComponent,
@@ -37,13 +46,69 @@ export default {
   },
   data() {
     return {
-      clients: [
-        { socketId: 1, userName: "Abhishek V" },
-        { socketId: 2, userName: "Yash C" },
-        { socketId: 2, userName: "Yash C" },
-        { socketId: 2, userName: "Yash C" },
-      ],
+      clients: [],
+      socket: io("http://localhost:5000"),
     };
+  },
+  methods: {
+    handleErrors(err) {
+      console.log("Socket error", err);
+      Vue.$toast.open({
+        message: "Socket connection failed, Please try again",
+        type: "error",
+      });
+      this.$router.push({
+        name: "Home",
+      });
+    },
+    async init() {
+      console.log("New 2 = " + this.roomId);
+      // console.log("New 3 = " + ACTIONS.JOIN);
+      this.socket.on("connect_error", (err) => this.handleErrors(err));
+      this.socket.on("connect_failed", (err) => this.handleErrors(err));
+      this.socket.emit(ACTIONS.JOIN, {
+        roomId: this.roomId,
+        userName: this.userName,
+      });
+
+      // Listening for the Joined event
+      this.socket.on(ACTIONS.JOINED, ({ clients, userName, socketId }) => {
+        console.log("Hi");
+        if (userName !== this.userName) {
+          Vue.$toast.open({
+            message: `${userName} joined the room.`,
+          });
+          console.log(`${userName} joined`);
+          console.log(clients);
+          console.log(socketId);
+        }
+        console.log("New 3 = " + JSON.stringify(clients));
+        this.clients = clients;
+      });
+
+      // Listening for disconnected
+      this.socket.on(ACTIONS.DISCONNECTED, ({ socketId, userName }) => {
+        Vue.$toast.open({
+          message: `${userName} left the room.`,
+        });
+        this.clients = this.clients.filter(
+          (client) => client.socketId !== socketId
+        );
+      });
+    },
+  },
+  mounted() {
+    this.init();
+  },
+  unmounted() {
+    this.socket.off(ACTIONS.JOINED);
+    this.socket.off(ACTIONS.DISCONNECTED);
+    this.socket.disconnect();
+  },
+  sockets: {
+    connect: function () {
+      console.log("Socket Connected");
+    },
   },
 };
 </script>

@@ -1,4 +1,4 @@
-Track Timing - 23.52, 35, 45, 51, 1:33, 1:44
+Track Timing - 23.52, 35, 45, 51, 1:33, 1:44, 2:35, 2:52
 
 Theme - Red and White
 For Validation - Vuelidate
@@ -10,3 +10,8 @@ Component Names - CamelCase convention
 Props Names - pascelCase convention
 Avatar - Vue Avatar
 Code Compilation library - Code Mirror Open Source editor - https://codemirror.net/
+
+
+Backend - 
+Node Js Framework - Express
+Web Socket - socket.io, socket.io-client

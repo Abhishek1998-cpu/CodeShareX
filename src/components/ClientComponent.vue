@@ -7,6 +7,7 @@
 
 <script>
 import Avatar from "vue-avatar";
+
 export default {
   name: "ClientComponent",
   components: {
@@ -14,6 +15,14 @@ export default {
   },
   props: {
     userName: String,
+  },
+  methods: {
+    async init() {
+      console.log("New 4 = " + this.userName);
+    },
+  },
+  mounted() {
+    this.init();
   },
 };
 </script>
