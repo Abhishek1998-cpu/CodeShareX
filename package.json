@@ -14,6 +14,7 @@
     "uuid": "^8.3.2",
     "vue": "^2.6.14",
     "vue-avatar": "^2.3.3",
+    "vue-codemirror": "^4.0.6",
     "vue-router": "3.5.4",
     "vue-socket.io": "^3.0.10",
     "vue-toast-notification": "^0.6.3"

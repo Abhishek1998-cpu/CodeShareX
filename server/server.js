@@ -28,13 +28,13 @@ io.on("connection", (socket) => {
   // socket.on("disconnect", () => {
   //   console.log("user disconnected");
   // });
-  socket.on("join", ({ roomId, userName }) => {
-    console.log("User joined successfully");
+  socket.on(ACTIONS.JOIN, ({ roomId, userName }) => {
+    // console.log("User joined successfully");
     userSocketMap[socket.id] = userName;
     socket.join(roomId);
     const clients = getAllConnectedClients(roomId);
-    console.log("New 4 = " + JSON.stringify(clients));
-    console.log(ACTIONS.JOINED);
+    // console.log("New 4 = " + JSON.stringify(clients));
+    // console.log(ACTIONS.JOINED);
     clients.forEach(({ socketId }) => {
       io.to(socketId).emit(ACTIONS.JOINED, {
         clients,
@@ -42,6 +42,17 @@ io.on("connection", (socket) => {
         socketId: socket.id,
       });
     });
+  });
+
+  socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
+    // console.log("Working again", code);
+    socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
+  });
+
+  socket.on(ACTIONS.SYNC_CODE, ({ code, socketId }) => {
+    console.log("Code = " + code);
+    console.log("SocketId = " + socketId);
+    io.to(socketId).emit(ACTIONS.CODE_CHANGE, { code });
   });
 
   socket.on("disconnecting", () => {

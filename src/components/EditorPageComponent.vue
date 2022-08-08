@@ -14,11 +14,15 @@
           <ClientComponent :userName="client.userName" />
         </div>
       </div>
-      <button class="copy-button">Copy Room ID</button>
-      <button class="leave-button">Leave</button>
+      <button class="copy-button" v-on:click="copyRoomId">Copy Room ID</button>
+      <button class="leave-button" v-on:click="leaveRoom">Leave</button>
     </div>
     <div class="editor-wrapper">
-      <EditorComponent />
+      <EditorComponent
+        v-bind:socket="socket"
+        v-bind:roomId="roomId"
+        @onCodeChange="syncOnCodeChange"
+      />
     </div>
   </div>
 </template>
@@ -27,13 +31,14 @@
 import Vue from "vue";
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
-
 import ClientComponent from "./ClientComponent";
 import EditorComponent from "./EditorComponent";
 // import { initSocket } from "../socket";
 import io from "socket.io-client";
 import ACTIONS from "../Actions";
+
 Vue.use(VueToast);
+
 export default {
   name: "EditorPageComponent",
   props: {
@@ -48,6 +53,7 @@ export default {
     return {
       clients: [],
       socket: io("http://localhost:5000"),
+      codeRef: "The codeRef",
     };
   },
   methods: {
@@ -84,6 +90,10 @@ export default {
         }
         console.log("New 3 = " + JSON.stringify(clients));
         this.clients = clients;
+        this.socket.emit(ACTIONS.SYNC_CODE, {
+          code: this.codeRef,
+          socketId,
+        });
       });
 
       // Listening for disconnected
@@ -95,6 +105,29 @@ export default {
           (client) => client.socketId !== socketId
         );
       });
+    },
+    async copyRoomId() {
+      try {
+        await navigator.clipboard.writeText(this.roomId);
+        Vue.$toast.open({
+          message: `Room Id has been copied`,
+        });
+      } catch (error) {
+        Vue.$toast.open({
+          message: "Could not copy Room Id",
+          type: "error",
+        });
+        console.log(error);
+      }
+    },
+    leaveRoom() {
+      this.$router.push({
+        name: "Home",
+      });
+    },
+    syncOnCodeChange(value) {
+      this.codeRef = value;
+      console.log("New value = " + value);
     },
   },
   mounted() {
@@ -108,6 +141,9 @@ export default {
   sockets: {
     connect: function () {
       console.log("Socket Connected");
+    },
+    disconnect: function () {
+      console.log("Socket Disconnected");
     },
   },
 };
