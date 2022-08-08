@@ -1,17 +1,6 @@
 <template>
   <div>
-    <!-- <h2>I am an Editor</h2> -->
-    <!-- <textarea
-      name=""
-      id="realtimeEditor"
-      v-model="content"
-      cols="30"
-      rows="10"
-      class="textarea"
-    ></textarea> -->
-    <!-- Handling the sync manually  -->
     <codemirror
-      ref="myCm"
       :value="content"
       :options="cmOptions"
       @ready="onCmReady"
@@ -23,7 +12,6 @@
 </template>
 
 <script>
-import * as CodeMirror from "codemirror";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/dracula.css";
 import "codemirror/mode/javascript/javascript";
@@ -60,16 +48,6 @@ export default {
   },
   methods: {
     async init() {
-      CodeMirror.fromTextArea(document.getElementById("realtimeEditor"), {
-        mode: {
-          name: "javascript",
-          json: true,
-        },
-        theme: "dracula",
-        autoCloseTags: true,
-        autoCloseBrackets: true,
-        lineNumbers: true,
-      });
       this.codemirror.on("change", (instance, changes) => {
         console.log(instance);
         console.log(changes);
@@ -84,19 +62,17 @@ export default {
     },
     onCmReady(cm) {
       console.log("the editor is readied!", cm);
+      this.socket.on(ACTIONS.CODE_CHANGE, ({ code }) => {
+        console.log("It should be working", code);
+        if (code !== null) {
+          this.content = code;
+        }
+      });
     },
     onCmFocus(cm) {
       console.log("the editor is focus!", cm);
     },
-    // onCmCodeChange(instance, newCode) {
-    //   console.log("this is new code", newCode);
-    //   console.log("this is new code", instance);
-    //   this.code = newCode;
-    // },
     onChange(instance, changes) {
-      // Dynamically setting value
-      // this.content = "const a = 10101";
-      // this.init();
       console.log(instance);
       console.log(changes);
       const { origin } = changes[0];
@@ -126,11 +102,6 @@ export default {
   },
   unmounted() {
     this.socket.off(ACTIONS.CODE_CHANGE);
-  },
-  computed: {
-    codemirror() {
-      return this.$refs.myCm.codemirror;
-    },
   },
 };
 </script>

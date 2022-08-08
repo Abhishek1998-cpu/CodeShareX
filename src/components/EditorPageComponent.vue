@@ -121,6 +121,9 @@ export default {
       }
     },
     leaveRoom() {
+      this.socket.off(ACTIONS.JOINED);
+      this.socket.off(ACTIONS.DISCONNECTED);
+      this.socket.disconnect();
       this.$router.push({
         name: "Home",
       });

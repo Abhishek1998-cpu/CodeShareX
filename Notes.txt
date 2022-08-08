@@ -19,6 +19,6 @@ Web Socket - socket.io, socket.io-client
 
 
 Features left - 
-Auto Sync on first load 
-Leave room button functionality - Other user is getting notified
+Auto Sync on first load - Fixed
+Leave room button functionality - Other user is getting notified - Fixed
 Code Compilation
