@@ -48,10 +48,10 @@ export default {
   },
   methods: {
     async init() {
-      this.codemirror.on("change", (instance, changes) => {
-        console.log(instance);
-        console.log(changes);
-      });
+      // this.codemirror.on("change", (instance, changes) => {
+      //   console.log(instance);
+      //   console.log(changes);
+      // });
       this.socket.on(ACTIONS.CODE_CHANGE, ({ code }) => {
         console.log("It should be working", code);
         if (code !== null) {

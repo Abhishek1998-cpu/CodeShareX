@@ -23,6 +23,24 @@
         v-bind:roomId="roomId"
         @onCodeChange="syncOnCodeChange"
       />
+      <div>
+        <div>
+          <button v-on:click="executeCode">Run</button>
+          <select name="" id="" v-model="language">
+            <option value="cpp">C++</option>
+            <option value="js">Javascript</option>
+            <option value="py">Python</option>
+            <option value="java">Java</option>
+          </select>
+        </div>
+        <div>
+          <div>
+            <h3>Output:</h3>
+            <button v-on:click="clearOutput">Clear Output</button>
+          </div>
+          <h4 v-if="showOutput">{{ output }}</h4>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -54,6 +72,9 @@ export default {
       clients: [],
       socket: io("http://localhost:5000"),
       codeRef: "The codeRef",
+      showOutput: false,
+      output: "",
+      language: "cpp",
     };
   },
   methods: {
@@ -68,7 +89,7 @@ export default {
       });
     },
     async init() {
-      console.log("New 2 = " + this.roomId);
+      // console.log("New 2 = " + this.roomId);
       // console.log("New 3 = " + ACTIONS.JOIN);
       this.socket.on("connect_error", (err) => this.handleErrors(err));
       this.socket.on("connect_failed", (err) => this.handleErrors(err));
@@ -79,16 +100,16 @@ export default {
 
       // Listening for the Joined event
       this.socket.on(ACTIONS.JOINED, ({ clients, userName, socketId }) => {
-        console.log("Hi");
+        // console.log("Hi");
         if (userName !== this.userName) {
           Vue.$toast.open({
             message: `${userName} joined the room.`,
           });
-          console.log(`${userName} joined`);
-          console.log(clients);
-          console.log(socketId);
+          // console.log(`${userName} joined`);
+          // console.log(clients);
+          // console.log(socketId);
         }
-        console.log("New 3 = " + JSON.stringify(clients));
+        // console.log("New 3 = " + JSON.stringify(clients));
         this.clients = clients;
         this.socket.emit(ACTIONS.SYNC_CODE, {
           code: this.codeRef,
@@ -130,7 +151,31 @@ export default {
     },
     syncOnCodeChange(value) {
       this.codeRef = value;
-      console.log("New value = " + value);
+      // console.log("New value = " + value);
+    },
+    executeCode() {
+      const res = fetch("http://localhost:5000/run", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ language: this.language, code: this.codeRef }),
+      });
+      res
+        .then((response) => response.json())
+        .then((response) => (this.output = response.output))
+        .catch(({ response }) => {
+          if (response) {
+            const errMsg = response.data.err.stderr;
+            this.output = errMsg;
+            console.log(response);
+          } else {
+            this.output = "Error connecting to server";
+          }
+        });
+      this.showOutput = true;
+    },
+    clearOutput() {
+      this.output = "";
+      this.showOutput = false;
     },
   },
   mounted() {

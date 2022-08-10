@@ -1,6 +1,8 @@
 Track Timing - 23.52, 35, 45, 51, 1:33, 1:44, 2:35, 2:52, 3.05
 3:36 
 
+Track Timing Backend - 12:30, 24:16, 34:20
+
 Theme - Red and White
 For Validation - Vuelidate
 For Routing - Vue router
@@ -18,7 +20,29 @@ Node Js Framework - Express
 Web Socket - socket.io, socket.io-client
 
 
-Features left - 
+Features and Bugs left - 
 Auto Sync on first load - Fixed
 Leave room button functionality - Other user is getting notified - Fixed
-Code Compilation
+Form Validation using Vuelidate 
+Styling of the Home / Login Page 
+Height of the Editor should be full screen
+Code Compilation - C++ Done
+Error handling when the wrong code is provided by the user - Use axios in the Frontend
+Implementation of Mongo Database
+
+
+Code Compilation Task - 
+
+C++ - Done
+C++ Approach - We need to generate a C++ file with content from the Request
+After that we need to run the file and send the response back
+
+
+
+Server already in use Issue - 
+First, you would want to know which process is using port 3000
+
+sudo lsof -i :3000
+this will list all PID listening on this port, once you have the PID you can terminate it with the following:
+
+kill -9 {PID}
