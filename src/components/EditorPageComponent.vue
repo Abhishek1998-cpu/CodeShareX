@@ -38,6 +38,8 @@
             <h3>Output:</h3>
             <button v-on:click="clearOutput">Clear Output</button>
           </div>
+          <h4>{{ this.status }}</h4>
+          <h4>{{ this.jobId && `JobId: ${this.jobId}` }}</h4>
           <h4 v-if="showOutput">{{ output }}</h4>
         </div>
       </div>
@@ -51,6 +53,7 @@ import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import ClientComponent from "./ClientComponent";
 import EditorComponent from "./EditorComponent";
+import axios from "axios";
 // import { initSocket } from "../socket";
 import io from "socket.io-client";
 import ACTIONS from "../Actions";
@@ -75,6 +78,8 @@ export default {
       showOutput: false,
       output: "",
       language: "cpp",
+      status: "",
+      jobId: "",
     };
   },
   methods: {
@@ -151,26 +156,56 @@ export default {
     },
     syncOnCodeChange(value) {
       this.codeRef = value;
-      // console.log("New value = " + value);
     },
-    executeCode() {
-      const res = fetch("http://localhost:5000/run", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ language: this.language, code: this.codeRef }),
-      });
-      res
-        .then((response) => response.json())
-        .then((response) => (this.output = response.output))
-        .catch(({ response }) => {
-          if (response) {
-            const errMsg = response.data.err.stderr;
-            this.output = errMsg;
-            console.log(response);
+    async executeCode() {
+      const payload = {
+        language: this.language,
+        code: this.codeRef,
+      };
+      try {
+        this.jobId = "";
+        this.status = "";
+        this.output = "";
+        const { data } = await axios.post("http://localhost:5000/run", payload);
+        console.log("New 7 = " + JSON.stringify(data));
+        this.jobId = data.jobId;
+        let intervalId;
+
+        // Polling Implementation
+        intervalId = setInterval(async () => {
+          const { data: dataRes } = await axios.get(
+            "http://localhost:5000/status",
+            { params: { id: data.jobId } }
+          );
+          const { success, job, error } = dataRes;
+          if (success) {
+            const { status: jobStatus, output: jobOutput } = job;
+            this.status = jobStatus;
+            if (this.status === "pending") {
+              return;
+            }
+            this.output = jobOutput;
+            clearInterval(intervalId);
           } else {
-            this.output = "Error connecting to server";
+            console.log(error);
+            this.status = "Error: Please retry!";
+            clearInterval(intervalId);
+            this.output = error;
           }
-        });
+          console.log(dataRes);
+        }, 1000);
+      } catch ({ response }) {
+        if (response) {
+          const errMsg = response.data.err.stderr;
+          this.output = errMsg;
+          console.log(response);
+        } else {
+          Vue.$toast.open({
+            message: "Error connecting to server",
+            type: "error",
+          });
+        }
+      }
       this.showOutput = true;
     },
     clearOutput() {

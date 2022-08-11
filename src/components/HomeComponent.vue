@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div>
     <h3>Please provide the details and then click on Join button</h3>
     <div class="main-wrapper">

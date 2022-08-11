@@ -6,6 +6,7 @@
       @ready="onCmReady"
       @focus="onCmFocus"
       @changes="onChange"
+      style="text-align: left !important"
     >
     </codemirror>
   </div>
@@ -39,6 +40,8 @@ export default {
           name: "javascript",
           json: true,
         },
+        // origLeft: ,
+        connect: "align",
         theme: "dracula",
         autoCloseTags: true,
         autoCloseBrackets: true,

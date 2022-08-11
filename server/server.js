@@ -2,10 +2,12 @@ const ACTIONS = require("../src/Actions");
 const express = require("express");
 const App = express();
 const http = require("http").createServer(App);
+const mongoose = require("mongoose");
 const { generateFile } = require("./generateFile");
 const { executeCpp } = require("./executeCpp");
 const { executePy } = require("./executePy");
 const { executeJs } = require("./executeJs");
+const Job = require("./models/Job");
 let cors = require("cors");
 
 const io = require("socket.io")(http, {
@@ -13,6 +15,23 @@ const io = require("socket.io")(http, {
     origins: ["http://localhost:8080/"],
   },
 });
+
+const DB =
+  "mongodb+srv://Abhishek:000@cluster0.dg7dbtp.mongodb.net/codesharex?retryWrites=true&w=majority";
+
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    // useCreateIndex: true,
+    useUnifiedTopology: true,
+    // useFindAndModify: false,
+  })
+  .then(() => {
+    console.log("Connection Successfull");
+  })
+  .catch((err) => {
+    console.log("Connection Unsuccessful: " + err);
+  });
 
 App.use(express.urlencoded({ extended: true }));
 App.use(express.json());
@@ -34,6 +53,27 @@ App.get("/", (req, res) => {
   res.send("<h2>Welcome to the Live Code Share</h2>");
 });
 
+App.get("/status", async (req, res) => {
+  const jobId = req.query.id;
+  if (jobId === undefined) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Missing Id Query Params " });
+  }
+  // console.log(jobId);
+  try {
+    const job = await Job.findById(jobId);
+    if (job === undefined) {
+      return res.status(404).json({ success: false, error: "Invalid Job Id" });
+    }
+    return res.status(200).json({ success: true, job });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ success: false, error: JSON.stringify(error) });
+  }
+});
+
 App.post("/run", async (req, res) => {
   const { language = "cpp", code } = req.body;
   if (code === undefined) {
@@ -41,11 +81,17 @@ App.post("/run", async (req, res) => {
       .status(400)
       .json({ success: false, error: "Empty! Code not found" });
   }
-  console.log(language);
-  console.log(code);
+  let job;
+  // console.log(language);
+  // console.log(code);
   try {
     const filePath = await generateFile(language, code);
+    job = await new Job({ language, filePath }).save();
+    const jobId = job["_id"];
+    res.status(201).json({ success: true, jobId });
+    console.log("New 5 = " + job);
     let output;
+    job["startedAt"] = new Date();
     if (language === "py") {
       output = await executePy(filePath);
     } else if (language === "js") {
@@ -53,9 +99,19 @@ App.post("/run", async (req, res) => {
     } else {
       output = await executeCpp(filePath);
     }
-    return res.status(200).json({ filePath, output });
+    job["completedAt"] = new Date();
+    job["status"] = "success";
+    job["output"] = output;
+    await job.save();
+    // console.log({ filePath, output });
+    // return res.status(200).json({ filePath, output });
   } catch (err) {
-    res.status(500).json({ err });
+    job["completedAt"] = new Date();
+    job["status"] = "error";
+    job["output"] = JSON.stringify(err);
+    await job.save();
+    // console.log(job);
+    // res.status(500).json({ err });
   }
 });
 

@@ -2,6 +2,7 @@ Track Timing - 23.52, 35, 45, 51, 1:33, 1:44, 2:35, 2:52, 3.05
 3:36 
 
 Track Timing Backend - 12:30, 24:16, 34:20
+Track Timing Database - Part 2 36:19 (Implemented Polling)
 
 Theme - Red and White
 For Validation - Vuelidate
@@ -21,14 +22,17 @@ Web Socket - socket.io, socket.io-client
 
 
 Features and Bugs left - 
-Auto Sync on first load - Fixed
-Leave room button functionality - Other user is getting notified - Fixed
+Auto Sync on first load - Fixed - Done
+Leave room button functionality - Other user is getting notified - Fixed - Done
 Form Validation using Vuelidate 
-Styling of the Home / Login Page 
-Height of the Editor should be full screen
+Styling of the Home / Login Page
+Left alignment of the code editor - Done
+Height of the Editor should be half screen and in the other Half output will be shown
 Code Compilation - C++ Done
-Error handling when the wrong code is provided by the user - Use axios in the Frontend
-Implementation of Mongo Database
+Code Compilation - Python Done
+Code Compilation - Js 
+Error handling when the wrong code is provided by the user - Use axios in the Frontend - 10th Aug - Done
+Implementation of Mongo Database - 10th Aug - Done
 
 
 Code Compilation Task - 
@@ -36,13 +40,24 @@ Code Compilation Task -
 C++ - Done
 C++ Approach - We need to generate a C++ file with content from the Request
 After that we need to run the file and send the response back
+ 
+Python - Done - 
+Approach - Execute file and get the result using Node js exec command
 
 
-
-Server already in use Issue - 
+Solution of Server already in use Issue - 
 First, you would want to know which process is using port 3000
 
 sudo lsof -i :3000
 this will list all PID listening on this port, once you have the PID you can terminate it with the following:
 
 kill -9 {PID}
+
+
+Mongo DB Atlas Details - 
+Project Name - CodeShareX
+Username - Abhishek
+Pass - 000
+Database Name - codesharex  
+Collection Name - code
+DB Connection String / URL = mongodb+srv://Abhishek:<password>@cluster0.dg7dbtp.mongodb.net/?retryWrites=true&w=majority
