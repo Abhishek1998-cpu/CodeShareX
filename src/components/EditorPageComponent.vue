@@ -5,7 +5,7 @@
         <div class="logo">
           <h2 class="logo-image">Logo will be here</h2>
         </div>
-        <h3>Connected</h3>
+        <h3>User Connected</h3>
         <div
           class="clients-list"
           v-for="client in clients"
@@ -24,23 +24,77 @@
         @onCodeChange="syncOnCodeChange"
       />
       <div>
-        <div>
-          <button v-on:click="executeCode">Run</button>
-          <select name="" id="" v-model="language">
-            <option value="cpp">C++</option>
-            <option value="js">Javascript</option>
-            <option value="py">Python</option>
-            <option value="java">Java</option>
-          </select>
-        </div>
-        <div>
+        <div
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+          "
+        >
+          <div style="display: flex; flex-direction: row; align-items: center">
+            <h3 style="font-weight: 400">Select Language: &nbsp;</h3>
+            <select name="" id="" v-model="language">
+              <option value="c">C</option>
+              <option value="cpp">C++</option>
+              <option value="js">Javascript</option>
+              <option value="py">Python</option>
+              <option value="java">Java</option>
+            </select>
+          </div>
           <div>
-            <h3>Output:</h3>
+            <button v-on:click="executeCode">Run</button>
             <button v-on:click="clearOutput">Clear Output</button>
           </div>
-          <h4>{{ this.status }}</h4>
-          <h4>{{ this.jobId && `JobId: ${this.jobId}` }}</h4>
-          <h4 v-if="showOutput">{{ output }}</h4>
+        </div>
+        <div
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            gap: 1rem;
+            padding-right: 1rem;
+            padding-left: 1rem;
+          "
+        >
+          <div>
+            <h3 style="text-align: left; font-weight: 400">Output:</h3>
+          </div>
+          <div>
+            <span>
+              <h4 v-if="showOutput">{{ output }}</h4>
+            </span>
+          </div>
+        </div>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 1rem;
+            padding-right: 1rem;
+            padding-left: 1rem;
+          "
+        >
+          <div>
+            <button
+              v-if="showOutput"
+              v-on:click="renderMoreDetails"
+              style="margin: 0rem"
+            >
+              {{ showMoreDetails ? "Hide More Detals" : "Show More Detals" }}
+            </button>
+          </div>
+          <div v-if="showMoreDetails">
+            <h4 style="text-align: left; font-weight: 400">
+              Status: {{ this.status }}
+            </h4>
+            <h4 style="text-align: left; font-weight: 400">
+              {{ this.jobId && `JobId: ${this.jobId}` }}
+            </h4>
+          </div>
         </div>
       </div>
     </div>
@@ -74,12 +128,13 @@ export default {
     return {
       clients: [],
       socket: io("http://localhost:5000"),
-      codeRef: "The codeRef",
+      codeRef: "Enter your code here",
       showOutput: false,
       output: "",
       language: "cpp",
       status: "",
       jobId: "",
+      showMoreDetails: false,
     };
   },
   methods: {
@@ -212,6 +267,9 @@ export default {
       this.output = "";
       this.showOutput = false;
     },
+    renderMoreDetails() {
+      this.showMoreDetails = !this.showMoreDetails;
+    },
   },
   mounted() {
     this.init();
@@ -233,6 +291,11 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,100;1,500&display=swap");
+
+* {
+  font-family: "Poppins", sans-serif;
+}
 .main-wrapper {
   display: grid;
   height: 100vh;
@@ -264,7 +327,26 @@ export default {
   height: 60px;
 }
 
-.leave-button {
+button {
+  background-color: lightblue;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: none;
+  min-width: 5rem;
+  margin: 0.5rem;
+}
+
+button:hover {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+}
+
+select {
+  height: 2rem;
+}
+
+/* .leave-button {
   margin-top: 20px;
   padding: 0.5rem;
   border-radius: 5px;
@@ -294,5 +376,5 @@ export default {
   background-color: white;
   color: red;
   font-weight: bold;
-}
+} */
 </style>

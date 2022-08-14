@@ -25,12 +25,13 @@ Features and Bugs left -
 Auto Sync on first load - Fixed - Done
 Leave room button functionality - Other user is getting notified - Fixed - Done
 Form Validation using Vuelidate 
-Styling of the Home / Login Page
+Styling of the Home / Login Page - 13th August - Show More Details Styling - left
 Left alignment of the code editor - Done
-Height of the Editor should be half screen and in the other Half output will be shown
+Height of the Editor should be half screen and in the other Half output will be shown - Done
 Code Compilation - C++ Done
 Code Compilation - Python Done
 Code Compilation - Js 
+Code Compilation - C
 Error handling when the wrong code is provided by the user - Use axios in the Frontend - 10th Aug - Done
 Implementation of Mongo Database - 10th Aug - Done
 

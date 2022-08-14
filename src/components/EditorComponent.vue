@@ -111,12 +111,20 @@ export default {
 
 <style scoped>
 .CodeMirror {
-  min-height: calc(100vh - 20px);
+  /* background-color: red !important; */
+  /* min-height: calc(100vh - 20px); */
+  /* min-height: calc(100vh); */
+  /* height: 1000px !important; */
   font-size: 20px;
   line-height: 1.6;
   padding-top: 20px;
 }
-.textarea {
+/* .CodeMirror > cm-s-dracula {
   min-height: 100vh;
-}
+  background-color: red;
+} */
+
+/* .cm-s-dracula.CodeMirror .cm-s-dracula .CodeMirror-gutters .textarea {
+  min-height: 100vh;
+} */
 </style>

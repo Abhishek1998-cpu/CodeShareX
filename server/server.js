@@ -7,6 +7,7 @@ const { generateFile } = require("./generateFile");
 const { executeCpp } = require("./executeCpp");
 const { executePy } = require("./executePy");
 const { executeJs } = require("./executeJs");
+const { executeC } = require("./executeC");
 const Job = require("./models/Job");
 let cors = require("cors");
 
@@ -96,7 +97,9 @@ App.post("/run", async (req, res) => {
       output = await executePy(filePath);
     } else if (language === "js") {
       output = await executeJs(filePath);
-    } else {
+    } else if(language === "c"){
+      output = await executeC(filePath)
+    }else{
       output = await executeCpp(filePath);
     }
     job["completedAt"] = new Date();
