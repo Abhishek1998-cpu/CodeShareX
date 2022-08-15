@@ -24,7 +24,7 @@ Web Socket - socket.io, socket.io-client
 Features and Bugs left - 
 Auto Sync on first load - Fixed - Done
 Leave room button functionality - Other user is getting notified - Fixed - Done
-Form Validation using Vuelidate 
+Form Validation using Vuelidate - Left
 Styling of the Home / Login Page - 13th August - Show More Details Styling - left
 Left alignment of the code editor - Done
 Height of the Editor should be half screen and in the other Half output will be shown - Done
