@@ -31,7 +31,8 @@ Height of the Editor should be half screen and in the other Half output will be 
 Code Compilation - C++ Done
 Code Compilation - Python Done
 Code Compilation - Js 
-Code Compilation - C
+Code Compilation - C Done
+Code Compilation - Java Done
 Error handling when the wrong code is provided by the user - Use axios in the Frontend - 10th Aug - Done
 Implementation of Mongo Database - 10th Aug - Done
 

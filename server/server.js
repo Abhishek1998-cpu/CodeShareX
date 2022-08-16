@@ -8,6 +8,7 @@ const { executeCpp } = require("./executeCpp")
 const { executePy } = require("./executePy")
 const { executeJs } = require("./executeJs")
 const { executeC } = require("./executeC")
+const { executeJava } = require("./executeJava")
 const Job = require("./models/Job")
 let cors = require("cors")
 
@@ -89,25 +90,30 @@ App.post("/run", async (req, res) => {
   // console.log(code);
   try {
     const filePath = await generateFile(language, code)
+    console.log("New 1 = " + filePath)
     job = await new Job({ language, filePath }).save()
+    console.log("Hi hello")
     const jobId = job["_id"]
     res.status(201).json({ success: true, jobId })
     // console.log("New 5 = " + job)
     let output
     job["startedAt"] = new Date()
     if (language === "py") {
-      // console.log(filePath)
-      return "Hello World From Py"
-      // output = await executePy(filePath)
+      output = await executePy(filePath)
     } else if (language === "js") {
-      // console.log(filePath)
-      return "Hello World From Js"
-      // output = await executeJs(filePath)
+      console.log("Execute Js")
+      output = await executeJs(filePath)
     } else if (language === "c") {
       output = await executeC(filePath)
-    } else {
+    } else if(language === "java"){
+      output = await executeJava(filePath)
+    }else {
       output = await executeCpp(filePath)
     }
+    // if(language == "js"){
+    //   console.log("Execute Js")
+    // output = await executeJs(filePath)
+    // }
     job["completedAt"] = new Date()
     job["status"] = "success"
     job["output"] = output

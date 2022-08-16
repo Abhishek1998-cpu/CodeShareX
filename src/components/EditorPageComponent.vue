@@ -127,7 +127,10 @@ export default {
   data() {
     return {
       clients: [],
-      socket: io("http://localhost:5000"),
+//       socket: io("http://localhost:5000", {
+//    transports: ['websocket']
+// }),
+socket: io("http://localhost:5000"),
       codeRef: "Enter your code here",
       showOutput: false,
       output: "",
@@ -217,6 +220,8 @@ export default {
         language: this.language,
         code: this.codeRef,
       };
+      console.log(axios)
+      console.log("New 1 = " + JSON.stringify(payload))
       try {
         this.jobId = "";
         this.status = "";
