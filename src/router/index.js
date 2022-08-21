@@ -1,6 +1,7 @@
 import Router from "vue-router";
 import HomeComponent from "../components/HomeComponent";
 import EditorPageComponent from "../components/EditorPageComponent";
+import PageNotFoundComponent from "../components/PageNotFoundComponent";
 
 const router = new Router({
   mode: "history",
@@ -10,6 +11,11 @@ const router = new Router({
       name: "Editor",
       path: "/editor/:roomId",
       component: EditorPageComponent,
+      props: true,
+    },
+    {
+      path: "*",
+      component: PageNotFoundComponent,
       props: true,
     },
   ],
