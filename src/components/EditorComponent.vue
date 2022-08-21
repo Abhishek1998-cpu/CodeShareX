@@ -19,7 +19,6 @@ import "codemirror/mode/javascript/javascript";
 import "codemirror/addon/edit/closetag";
 import "codemirror/addon/edit/closebrackets";
 
-// Here
 import { codemirror } from "vue-codemirror";
 import ACTIONS from "../Actions";
 
@@ -40,7 +39,6 @@ export default {
           name: "javascript",
           json: true,
         },
-        // origLeft: ,
         connect: "align",
         theme: "dracula",
         autoCloseTags: true,
@@ -51,10 +49,6 @@ export default {
   },
   methods: {
     async init() {
-      // this.codemirror.on("change", (instance, changes) => {
-      //   console.log(instance);
-      //   console.log(changes);
-      // });
       this.socket.on(ACTIONS.CODE_CHANGE, ({ code }) => {
         console.log("It should be working", code);
         if (code !== null) {
@@ -88,15 +82,12 @@ export default {
           code,
         });
       }
-      // This should be here only
-      // if (socket.current) {
       this.socket.on(ACTIONS.CODE_CHANGE, ({ code }) => {
         console.log("It should be working", code);
         if (code !== null) {
           this.content = code;
         }
       });
-      // }
       console.log("New 5 = " + code);
     },
   },
@@ -111,20 +102,8 @@ export default {
 
 <style scoped>
 .CodeMirror {
-  /* background-color: red !important; */
-  /* min-height: calc(100vh - 20px); */
-  /* min-height: calc(100vh); */
-  /* height: 1000px !important; */
   font-size: 20px;
   line-height: 1.6;
   padding-top: 20px;
 }
-/* .CodeMirror > cm-s-dracula {
-  min-height: 100vh;
-  background-color: red;
-} */
-
-/* .cm-s-dracula.CodeMirror .cm-s-dracula .CodeMirror-gutters .textarea {
-  min-height: 100vh;
-} */
 </style>

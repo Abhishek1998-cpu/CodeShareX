@@ -4,10 +4,8 @@ import VueRotuer from "vue-router";
 import router from "./router";
 import SocketIO from "socket.io-client";
 import VueSocketIO from "vue-socket.io";
-import Vuelidate from "vuelidate"
+import Vuelidate from "vuelidate";
 
-// export const SocketInstance = socketio("http://localhost:5000");
-// Vue.use(VueRotuer, VueSocketIO, SocketInstance);
 Vue.use(VueRotuer, Vuelidate);
 
 Vue.use(

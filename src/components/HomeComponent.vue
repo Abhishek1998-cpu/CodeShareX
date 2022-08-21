@@ -78,15 +78,6 @@ export default {
   },
   methods: {
     onSubmit() {
-      // this.$v.$touch()
-      // if(!this.$v.$invalid){
-      //   console.log("Error is there")
-      //   window.alert("Error")
-      // }else{
-      //   console.log("Success is there")
-      //   window.alert("Success")
-      // }
-
       if (!this.roomId || !this.userName) {
         Vue.$toast.open({
           message: "Please fill all the details before submitting",
@@ -122,13 +113,7 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;1,100&display=swap"); */
-
-/* @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;1,100&display=swap"); */
-
-/* @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,100&display=swap"); */
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,100;1,500&display=swap");
 
