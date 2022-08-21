@@ -1,4 +1,4 @@
-const ACTIONS = require("../src/Actions");
+const ACTIONS = require("../client/src/Actions");
 const express = require("express");
 const App = express();
 const http = require("http").createServer(App);
@@ -152,6 +152,10 @@ io.on("connection", (socket) => {
 });
 
 const PORT = process.env.PORT || 5000;
+
+// if(process.env.NODE_ENV === "production"){
+//   App.use(express.static)
+// }
 
 http.listen(PORT, () => {
   console.log(`Listening on the port ${PORT}`);

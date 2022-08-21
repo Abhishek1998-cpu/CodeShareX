@@ -69,3 +69,5 @@ Pass - 000
 Database Name - codesharex  
 Collection Name - code
 DB Connection String / URL = mongodb+srv://Abhishek:<password>@cluster0.dg7dbtp.mongodb.net/?retryWrites=true&w=majority
+
+Deployment Steps - 
