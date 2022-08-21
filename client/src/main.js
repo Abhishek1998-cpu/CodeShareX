@@ -11,7 +11,7 @@ Vue.use(VueRotuer, Vuelidate);
 Vue.use(
   new VueSocketIO({
     debug: true,
-    connection: SocketIO("http://localhost:5000"),
+    connection: SocketIO("https://intense-mesa-48160.herokuapp.com"),
   })
 );
 

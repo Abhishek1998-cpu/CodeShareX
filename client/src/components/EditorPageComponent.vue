@@ -126,7 +126,8 @@ export default {
   data() {
     return {
       clients: [],
-      socket: io("http://localhost:5000"),
+      // socket: io("http://localhost:5000"),
+      socket: io("https://intense-mesa-48160.herokuapp.com"),
       codeRef: "Enter your code here",
       showOutput: false,
       output: "",
@@ -212,7 +213,10 @@ export default {
         this.jobId = "";
         this.status = "";
         this.output = "";
-        const { data } = await axios.post("http://localhost:5000/run", payload);
+        const { data } = await axios.post(
+          "https://intense-mesa-48160.herokuapp.com/run",
+          payload
+        );
         console.log("New 7 = " + JSON.stringify(data));
         this.jobId = data.jobId;
         let intervalId;
@@ -220,7 +224,7 @@ export default {
         // Polling Implementation
         intervalId = setInterval(async () => {
           const { data: dataRes } = await axios.get(
-            "http://localhost:5000/status",
+            "https://intense-mesa-48160.herokuapp.com/status",
             { params: { id: data.jobId } }
           );
           const { success, job, error } = dataRes;

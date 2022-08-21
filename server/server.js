@@ -1,4 +1,4 @@
-const ACTIONS = require("../client/src/Actions");
+const ACTIONS = require("./Actions");
 const express = require("express");
 const App = express();
 const http = require("http").createServer(App);
@@ -11,6 +11,7 @@ const { executeC } = require("./executeC");
 const { executeJava } = require("./executeJava");
 const Job = require("./models/Job");
 let cors = require("cors");
+require("dotenv").config();
 
 const io = require("socket.io")(http, {
   cors: {
@@ -153,9 +154,13 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 5000;
 
-// if(process.env.NODE_ENV === "production"){
-//   App.use(express.static)
-// }
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === "production") {
+  App.use(express.static(__dirname + "/dist/"));
+  App.get("*", (req, res) => {
+    res.sendFile(__dirname + "/dist/index.html");
+  });
+}
 
 http.listen(PORT, () => {
   console.log(`Listening on the port ${PORT}`);
