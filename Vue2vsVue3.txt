@@ -1,0 +1,22 @@
+Major differences between Vue 2 and Vue 3 
+
+New createApp Function
+1. createApp function in Vue 3 
+
+In Vue 2 in main.js file you will find a different Syntax 
+In Vue 3, it is createApp(App).mount("#app")
+
+Fragments 
+2. In Vue 2 you cannot write multiple html tag or elements straight inside template
+You always need to wrap them under a div, as single root parent should be there in template 
+In Vue 3 there is nothing like that
+
+Teleport 
+3. teleport tag in Vue 3
+
+
+Emit Components option in Vue 3
+4. 
+
+Composition API 
+5. 

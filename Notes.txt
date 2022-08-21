@@ -35,7 +35,9 @@ Code Compilation - C Done
 Code Compilation - Java Done
 Error handling when the wrong code is provided by the user - Use axios in the Frontend - 10th Aug - Done
 Implementation of Mongo Database - 10th Aug - Done
-
+Use Vue Axios with the Normal Axios Package 
+Implement VueX for Global State Management
+Build and Deployment 
 
 Code Compilation Task - 
 

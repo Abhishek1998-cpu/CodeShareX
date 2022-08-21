@@ -9,6 +9,7 @@ import Vuelidate from "vuelidate"
 // export const SocketInstance = socketio("http://localhost:5000");
 // Vue.use(VueRotuer, VueSocketIO, SocketInstance);
 Vue.use(VueRotuer, Vuelidate);
+
 Vue.use(
   new VueSocketIO({
     debug: true,

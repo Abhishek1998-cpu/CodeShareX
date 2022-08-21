@@ -35,7 +35,7 @@
         >
           <div style="display: flex; flex-direction: row; align-items: center">
             <h3 style="font-weight: 400">Select Language: &nbsp;</h3>
-            <select name="" id="" v-model="language">
+            <select v-model="language">
               <option value="c">C</option>
               <option value="cpp">C++</option>
               <option value="js">Javascript</option>
