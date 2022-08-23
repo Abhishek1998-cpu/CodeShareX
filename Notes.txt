@@ -24,7 +24,7 @@ Web Socket - socket.io, socket.io-client
 Features and Bugs left - 
 Auto Sync on first load - Fixed - Done
 Leave room button functionality - Other user is getting notified - Fixed - Done
-Form Validation using Vuelidate - Left
+Form Validation using Vuelidate - Left / Not required
 Styling of the Home / Login Page - 13th August - Show More Details Styling - left
 Left alignment of the code editor - Done
 Height of the Editor should be half screen and in the other Half output will be shown - Done
@@ -37,12 +37,14 @@ Error handling when the wrong code is provided by the user - Use axios in the Fr
 Implementation of Mongo Database - 10th Aug - Done
 Use Vue Axios with the Normal Axios Package 
 Implement VueX for Global State Management
-Build and Deployment 
-Readme File Updation
+Readme File Updation - Done - More Update required
 User Identification - User with same Name case 
 User Identification - User should be able to know which one is he in the list of user
-404 Page not found Implementation 
+404 Page not found Implementation - Done
 Bug - User 3 is sometimes not getting the same code written in others 
+
+Build and Deployment - Done - Issue - 
+Java and C++ Compilation Issues
 
 Code Compilation Task - 
 
