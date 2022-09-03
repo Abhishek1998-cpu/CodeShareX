@@ -40,8 +40,6 @@ Node Js
 MongoDB (Atlas)
 
 ### How to use?
-```
-
 1. So the very first step is as usuual, run npm install in the root folder and in the root/server folder
 
 2. Now run npm start in the root folder and in the root/server folder to run the frontend and the backend application.
