@@ -1,5 +1,11 @@
 # codesharex
 
+## Edit
+```
+Application backend stopped - free tier expired
+Contact me for testing 
+```
+
 ## Project setup
 ```
 npm install in root folder and root/server folder
